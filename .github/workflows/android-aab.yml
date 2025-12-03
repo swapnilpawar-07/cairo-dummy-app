@@ -1,7 +1,7 @@
 name: Build Android AAB
 
 on:
-  workflow_dispatch:  # you can trigger it manually from the Actions tab
+  workflow_dispatch:  # run manually from Actions tab
 
 jobs:
   build:
@@ -17,11 +17,14 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      - name: Install Gradle 5.4.1
+        run: |
+          wget https://services.gradle.org/distributions/gradle-5.4.1-bin.zip
+          unzip -q gradle-5.4.1-bin.zip
+          echo "$PWD/gradle-5.4.1/bin" >> $GITHUB_PATH
 
       - name: Build release bundle
-        run: ./gradlew bundleRelease --no-daemon
+        run: gradle bundleRelease --no-daemon
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
