@@ -1,0 +1,2 @@
+rootProject.name = 'CairoDummyApp'
+include ':app'
